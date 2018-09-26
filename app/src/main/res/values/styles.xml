@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+
+    <style name="BotoesOperacoes" parent="@style/Botoes">
+        <item name="android:background">@color/cor_background_operacoes</item>
+    </style>
+
+    <style name="BotoesDigitos" parent="@style/Botoes">
+        <item name="android:background">@color/cor_background_digitos</item>
+    </style>
+
+    <style name="Botoes">
+        <item name="android:textColor">@color/cor_fonte_clara</item>
+        <item name="android:textSize">@dimen/fonte_botoes</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:layout_margin">@dimen/espaco_padrao</item>
+    </style>
+
+    <style name="Display">
+        <item name="android:textSize">@dimen/fonte_display</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:background">@color/cor_background_display</item>
+        <item name="android:layout_margin">@dimen/display_margin</item>
+        <item name="android:paddingRight">@dimen/display_side_paddings</item>
+        <item name="android:paddingLeft">@dimen/display_side_paddings</item>
+    </style>
+
+</resources>

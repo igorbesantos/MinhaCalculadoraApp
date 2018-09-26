@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fonte_botoes">50sp</dimen>
+    <dimen name="fonte_display">50sp</dimen>
+    <dimen name="espaco_padrao">8dp</dimen>
+    <dimen name="display_margin">16dp</dimen>
+    <dimen name="display_side_paddings">16dp</dimen>
+</resources>

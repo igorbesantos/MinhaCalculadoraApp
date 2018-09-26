@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
+        android:maxLines="2"
+        style="@style/Display" />
+
+    <android.support.v7.widget.GridLayout
+        android:id="@+id/gl_gridBotoes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/espaco_padrao"
+        app:rowCount="5"
+        app:columnCount="4">
+
+        <Button
+            android:id="@+id/btn_limpar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/limpar"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="0"
+            app:layout_row="0"
+            style="@style/Botoes"
+            android:background="@color/cor_background_clear"/>
+
+        <Button
+            android:id="@+id/btn_dividir"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/dividir"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="3"
+            app:layout_row="0"
+            style="@style/BotoesOperacoes"/>
+
+        <Button
+            android:id="@+id/btn_7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sete"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="0"
+            app:layout_row="1"
+            style="@style/BotoesDigitos"/>
+
+        <Button
+            android:id="@+id/btn_8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/oito"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="1"
+            app:layout_row="1"
+            style="@style/BotoesDigitos"/>
+
+        <Button
+            android:id="@+id/btn_9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/nove"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="2"
+            app:layout_row="1"
+            style="@style/BotoesDigitos"/>
+
+        <Button
+            android:id="@+id/btn_multiplicar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/multiplicar"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="3"
+            app:layout_row="1"
+            style="@style/BotoesOperacoes"/>
+
+        <Button
+            android:id="@+id/btn_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/quatro"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="0"
+            app:layout_row="2"
+            style="@style/BotoesDigitos"/>
+
+        <Button
+            android:id="@+id/btn_5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/cinco"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="1"
+            app:layout_row="2"
+            style="@style/BotoesDigitos"/>
+
+        <Button
+            android:id="@+id/btn_6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/seis"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="2"
+            app:layout_row="2"
+            style="@style/BotoesDigitos"/>
+
+        <Button
+            android:id="@+id/btn_subtrair"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/subtrair"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="3"
+            app:layout_row="2"
+            style="@style/BotoesOperacoes"/>
+
+        <Button
+            android:id="@+id/btn_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/um"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="0"
+            app:layout_row="3"
+            style="@style/BotoesDigitos"/>
+
+        <Button
+            android:id="@+id/btn_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/dois"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="1"
+            app:layout_row="3"
+            style="@style/BotoesDigitos"/>
+
+        <Button
+            android:id="@+id/btn_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tres"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="2"
+            app:layout_row="3"
+            style="@style/BotoesDigitos"/>
+
+        <Button
+            android:id="@+id/btn_somar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/somar"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="3"
+            app:layout_row="3"
+            style="@style/BotoesOperacoes"/>
+
+        <Button
+            android:id="@+id/btn_0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/zero"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="0"
+            app:layout_row="4"
+            style="@style/BotoesDigitos"/>
+
+        <Button
+            android:id="@+id/btn_00"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/zero_duplo"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="1"
+            app:layout_row="4"
+            style="@style/BotoesDigitos"/>
+
+        <Button
+            android:id="@+id/btn_ponto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/ponto"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="2"
+            app:layout_row="4"
+            style="@style/BotoesDigitos"/>
+
+        <Button
+            android:id="@+id/btn_igual"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/igual"
+            android:onClick="gerenciarClique"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:layout_column="3"
+            app:layout_row="4"
+            style="@style/Botoes"
+            android:background="@color/cor_background_igual"/>
+
+    </android.support.v7.widget.GridLayout>
+
+</LinearLayout>

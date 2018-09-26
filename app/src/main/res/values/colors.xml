@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="cor_background_operacoes">#ec9020</color>
+    <color name="cor_background_digitos">#252525</color>
+    <color name="cor_background_igual">#4254d7</color>
+    <color name="cor_background_clear">#dc533d</color>
+    <color name="cor_background_display">#8c8080</color>
+    <color name="cor_fonte_clara">#cecece</color>
+</resources>
