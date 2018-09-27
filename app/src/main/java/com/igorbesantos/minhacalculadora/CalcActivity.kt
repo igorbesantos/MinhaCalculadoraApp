@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.igorbesantos.minhacalculadora.utils.contemPonto
 import java.math.BigDecimal
 
 /***
@@ -47,6 +48,16 @@ class CalcActivity : AppCompatActivity() {
      */
     var isEntradaDecimal = false
 
+    /***
+     * Flag para indicar se a operação deve ser realizada
+     */
+    var podeCalcular = false
+
+    /***
+     * Flag para indicar se o botão de igual está sendo pressionado consecutivamente
+     */
+    var isSequenciaIgualAtivada = false
+
     val MAX_DIGITOS = 15
 
     /* Constantes da operações */
@@ -68,10 +79,22 @@ class CalcActivity : AppCompatActivity() {
     fun gerenciarClique(view: View){
         when(view.id){
             R.id.btn_limpar -> limpar()
-            R.id.btn_somar -> calcularNumeros(SOMA)
-            R.id.btn_multiplicar -> calcularNumeros(MULTIPLICACAO)
-            R.id.btn_dividir -> calcularNumeros(DIVISAO)
-            R.id.btn_subtrair -> calcularNumeros(SUBTRACAO)
+            R.id.btn_somar ->{
+                verificaParadaIguaisConsecutivos()
+                calcularNumeros(SOMA)
+            }
+            R.id.btn_multiplicar -> {
+                verificaParadaIguaisConsecutivos()
+                calcularNumeros(MULTIPLICACAO)
+            }
+            R.id.btn_dividir -> {
+                verificaParadaIguaisConsecutivos()
+                calcularNumeros(DIVISAO)
+            }
+            R.id.btn_subtrair -> {
+                verificaParadaIguaisConsecutivos()
+                calcularNumeros(SUBTRACAO)
+            }
             R.id.btn_igual -> executarIgual()
             else -> {
                 interpretarDigitacao((view as Button).text.toString())
@@ -112,10 +135,23 @@ class CalcActivity : AppCompatActivity() {
             n1 = ultimoInseridoManualmente
         }
 
-        n1 = executarOperacao(n1, valorInserido, operacao)
+        var n2: BigDecimal = valorInserido
+
+        //Acertar ordem dos fatores
+        //Ex.: Para ser possível continuar dividindo o total por dois, não para continuar dividindo dois pelo total
+        if(isSequenciaIgualAtivada && n1 != null){
+            n2 = n1!!
+            n1 = valorInserido
+        }
+
+        n1 = executarOperacao(n1, n2, this.operacao)
+
+        //A operação não deve ser executada caso botões de operação sejam pressionados consecutivamente (exceto o igual)
+        podeCalcular = false
+
         if(isTamanhoTextoValido(n1?.toPlainString()?.length!!, "O número máximo de dígitos ($MAX_DIGITOS) foi atingido pela resposta.")) {
             this.operacao = operacao
-            tv_display?.text = n1?.toPlainString()
+            tv_display?.text = formataParaExibicao(n1?.toPlainString())
             isValorDisplayEditavel = false
         }else{
             limpar()
@@ -126,13 +162,17 @@ class CalcActivity : AppCompatActivity() {
      * Caso n1 seja nulo ou operação esteja vazia, retorna n2,
      * caso contrário, retorna o resultado da operação
      */
-    fun executarOperacao(n1: BigDecimal?, n2: BigDecimal, operacaoInserida: String): BigDecimal{
-        if(n1 != null && operacaoInserida != "" && this.operacao == "") {
-            when(operacaoInserida){
-                SOMA -> return n1.add(n2)
-                SUBTRACAO -> return n1.subtract(n2)
-                MULTIPLICACAO -> return n1.multiply(n2)
-                DIVISAO -> return n1.divide(n2)
+    fun executarOperacao(n: BigDecimal?, n2: BigDecimal, operacaoInserida: String): BigDecimal{
+        var n1 = if(n == null) BigDecimal(0) else n
+        if(podeCalcular) {
+            return when(operacaoInserida){
+                SOMA -> n1.add(n2)
+                SUBTRACAO -> n1.subtract(n2)
+                MULTIPLICACAO -> n1.multiply(n2)
+                DIVISAO -> {
+                    if(n2.toPlainString().equals("0")) n2 else n1.divide(n2)
+                }
+                else -> n2
             }
         }
         return n2
@@ -146,9 +186,11 @@ class CalcActivity : AppCompatActivity() {
     fun executarIgual(){
         if(this.operacao.isNotEmpty()) {
             val op = this.operacao
-            this.operacao = ""
             calcularNumeros(op)
             n1 = null
+            //Permite refazer a última operação indefinidas vezes, pressionando o igual consecutivamente
+            podeCalcular = true
+            isSequenciaIgualAtivada = true
         }
     }
 
@@ -157,6 +199,11 @@ class CalcActivity : AppCompatActivity() {
      * para formar corretamente o "texto" correspondente ao valor que está sendo inserido
      */
     fun interpretarDigitacao(entrada: String){
+
+        isSequenciaIgualAtivada = false
+
+        //Permite efetuar o cálculo novamente ao inserir novo valor
+        podeCalcular = true
 
         if(isValorDisplayEditavel) {
             //Valida tamanho previsto da entrada do usuário
@@ -180,33 +227,37 @@ class CalcActivity : AppCompatActivity() {
         val textoDisplay = tv_display?.text?.toString()
 
         //Se é o primeiro dígito relevante a ser pressionado, substitui o zero exibido
-        if(textoDisplay == "0" && entrada != "."){
+        if(textoDisplay == "0" && !isEntradaDecimal && entrada != "." && entrada[0] != '0'){
             tv_display?.text = entrada
             return
         }
 
-        //Não insere o duplo zero se o valor do display é zero, exceto entrada em casa decimal
-        if(textoDisplay == "0" && entrada == "00" && !isEntradaDecimal) return
-
         //Valida a inserção do ponto
         if(entrada == "."){
-            if(isValorDisplayEditavel){
-                tv_display?.text = "0"
+            if(isValorDisplayEditavel && textoDisplay == "0"){
                 isEntradaDecimal = true
                 return
             }
-            var contemPonto = false
-            tv_display?.text?.toString()?.forEach {if(it == '.') contemPonto = true}
-            if(!contemPonto) isEntradaDecimal = true
+            if(textoDisplay!!.contemPonto().not()) isEntradaDecimal = true
             return
         }
 
         //Concatena o dígito referente ao botão pressionado
         if(isEntradaDecimal){
-            tv_display?.text = "$textoDisplay.$entrada"
+            tv_display?.text = formataParaExibicao("$textoDisplay.$entrada")
             isEntradaDecimal = false
         }else {
-            tv_display?.text = "$textoDisplay$entrada"
+            tv_display?.text = formataParaExibicao("$textoDisplay$entrada")
+        }
+    }
+
+    /***
+     * Ajusta o estado da calculadora para realizar uma operação diferente, caso esteja sendo feita logo após o igual ser pressionado múltiplas vezes consecutivas
+     */
+    fun verificaParadaIguaisConsecutivos(){
+        if(isSequenciaIgualAtivada){
+            podeCalcular = false
+            isSequenciaIgualAtivada = false
         }
     }
 
@@ -219,6 +270,34 @@ class CalcActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    /***
+     * Retira o ponto, os zeros à direita (do ponto) e os zeros à esquerda, quando não são necessários
+     */
+    private fun formataParaExibicao(valor: String?):String{
+        if(valor != null) {
+            var formatado: String = valor
+            if (valor.contemPonto()) {
+                //Retira zeros irrelevantes à direita do ponto
+                var pos = valor.length - 1
+                while (formatado.get(pos) == '0') {
+                    formatado = formatado.substring(0, pos)
+                    pos--
+                }
+                //Retira o ponto caso não haja valores decimais
+                pos = formatado.length - 1
+                if (formatado.get(pos) == '.') {
+                    formatado = formatado.substring(0, pos)
+                }
+            }
+            while(formatado.length > 1 && formatado[0] == '0' && formatado[1] != '.'){
+                formatado = formatado.substring(1, formatado.length)
+            }
+            return formatado
+        }else{
+            return "0"
+        }
     }
 
 }
