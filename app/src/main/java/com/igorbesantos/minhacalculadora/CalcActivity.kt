@@ -209,7 +209,7 @@ class CalcActivity : AppCompatActivity() {
             //Valida tamanho previsto da entrada do usuário
             var tamanhoTexto = 0
             tamanhoTexto += tv_display?.text?.length!!
-            tamanhoTexto += entrada?.length
+            tamanhoTexto += entrada.length
             if (isEntradaDecimal) tamanhoTexto++
             if (!isTamanhoTextoValido(tamanhoTexto)) return
         }
