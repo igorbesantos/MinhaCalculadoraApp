@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.igorbesantos.minhacalculadora.utils.contemPonto
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 /***
  * Activity principal, a calculadora em si
@@ -170,7 +171,7 @@ class CalcActivity : AppCompatActivity() {
                 SUBTRACAO -> n1.subtract(n2)
                 MULTIPLICACAO -> n1.multiply(n2)
                 DIVISAO -> {
-                    if(n2.toPlainString().equals("0")) n2 else n1.divide(n2)
+                    if(n2.toPlainString().equals("0")) n2 else n1.divide(n2,10,RoundingMode.FLOOR)
                 }
                 else -> n2
             }
